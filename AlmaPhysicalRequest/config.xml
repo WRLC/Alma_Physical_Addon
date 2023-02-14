@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Name>Alma-Physical-Request Addon</Name>
+	<Author>K Kilduff</Author>
+	<Version>1.0</Version>
+	<Active>true</Active>
+	<Type>Addon</Type>
+	<Description>Submits a physical item request to an institution's Alma using the Users and Fulfillment API.</Description>
+	<Forms>
+		<Form>FormRequest</Form>
+	</Forms>
+	<Settings>
+		<Setting name="AutoSearch" value="false" type="boolean">
+			<Description>Determines whether or not the search should be done automatically when the request is opened.</Description>
+		</Setting>
+		<Setting name="InstitutionCode" value="01WRLC_IZC" type="string">
+			<Description>Institution Code for Alma.</Description>
+		</Setting>
+		<Setting name="regionalURL" value="https://api-na.hosted.exlibrisgroup.com/" type="string">
+			<Description>Alma API Regional URL (optional).  Sourced from table: https://developers.exlibrisgroup.com/alma/apis/#calling</Description>
+		</Setting>
+		<Setting name="SubmissionURL" value="https://illiad-apa.wrlc.org/index.php?" type="string">
+			<Description>URL for website to handle request submissions (see web setup instructions)</Description>
+		</Setting>
+		<Setting name="UserId" value="IllUserPrimaryId" type="string">
+			<Description>Alma Primary ID for ILL lending patron in Alma (the patron which will receive all of the requests).</Description>
+		</Setting>
+		<Setting name="IlliadClientSecret" value="sharedsecretwithwebserver" type="string">
+			<Description>Credential for posting form to web server; keep this secret.</Description>
+		</Setting>
+	</Settings>
+	<Files>
+		<File>alma_physical_request.lua</File>
+	</Files>
+</Configuration>

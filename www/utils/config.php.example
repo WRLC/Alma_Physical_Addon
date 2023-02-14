@@ -1,0 +1,34 @@
+<?php
+// debug/error logging goes to web server error.log
+define('DEBUG_LOG', false);
+#define('DEBUG_LOG', true);
+
+// settings for each Institution Zone
+$izSettings = array (
+    # indexed by Alma Institution Code
+    '01WRLC_EXONE' => array (
+        # for display on Web form
+        'name' => 'Example University One',
+        # Alma API Key with Users read/write permission
+        'apikey' => 'l8xx0123456789abcdeffedcba9876543210',
+        # Alma Library Code
+        'loclib' => 'UNIV_LIB',
+        # Alma Library Circ Dest
+        'locirc' => 'DEFAULT_CIRC_DESK',
+    ),
+    '01WRLC_EXTWO' => array (
+        'name' => 'Example University TWO',
+        'apikey' => 'l8xx0123456789abcdeffedcba9876543210',
+        'loclib' => 'Main',
+        'locirc' => 'DEFAULT_CIRC_DESK',
+    ),
+);
+
+$apiSettings = array (
+    'defaultURL' => 'https://api-na.hosted.exlibrisgroup.com/',
+);
+
+// ILLiad Client Secret - should only be shared with authorized ILLiad clients
+//      no URL encoding/decoding is done, avoid special & non-ASCII characters
+define('ILLIAD_CLIENT_SECRET', 'rand0m1ettersandnumbers');
+?>

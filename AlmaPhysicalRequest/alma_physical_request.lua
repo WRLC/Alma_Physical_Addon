@@ -26,6 +26,7 @@ function Init()
 		interfaceMngr = GetInterfaceManager();
 		
 		PhysicalRequestForm.Form = interfaceMngr:CreateForm("WRLC Physical Request", "Script");
+		
 		PhysicalRequestForm.Browser = PhysicalRequestForm.Form:CreateBrowser("WRLC Physical Request", "WRLC Physical Request", "WRLC Physical Request");
 		
 		PhysicalRequestForm.Browser.TextVisible = false;

@@ -43,7 +43,7 @@ function validateForm() {
 	var alertText = "The following fields are invalid:\n";
 	var issueCount = 0;
 	var addressCount = 0;
-	
+
 	$("input").each(function() {
 		if ($(this).attr("id") == 'start') {
 			if (pageValidate("#start") == false) {
@@ -56,20 +56,20 @@ function validateForm() {
 				issueCount++;
 			}
 		} else if ($(this).attr("id") == 'address4') {
-                        if (isEmpty($(this))) {
-                        addressCount++;
-                        }
-                } else if ($(this).attr("id") == 'address3') {
-                        if (isEmpty($(this))) {
-                        addressCount++;
-                        }
-                } else if ($(this).attr("id") == 'address2') {
-                        if (isEmpty($(this))) {
-                        addressCount++;
-                        }
-                } else if ($(this).attr("id") == 'address1') {
-                        if (isEmpty($(this))) {
-                        addressCount++;	
+			if (isEmpty($(this))) {
+			addressCount++;
+			}
+		} else if ($(this).attr("id") == 'address3') {
+			if (isEmpty($(this))) { 
+			addressCount++;         
+			}
+		} else if ($(this).attr("id") == 'address2') {
+			if (isEmpty($(this))) { 
+			addressCount++;         
+			}
+		} else if ($(this).attr("id") == 'address1') {
+			if (isEmpty($(this))) { 
+			addressCount++;         
 			}
 		} else if (isEmpty($(this))) {
 			alertText += "\n\u2022 ";

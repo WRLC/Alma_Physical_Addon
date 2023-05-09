@@ -26,6 +26,7 @@
         $tn = 'unknown';
     }
     $comment = "ILLiad TN: $tn; ";
+
     $borIn = $_POST["borIn"];
     if ($borIn == '') {
         $borIn = 'unknown';
@@ -34,10 +35,41 @@
     if ($md == '') {
         $md = 'unknown';
     }
+    $address1 = $_POST["address1"];
+    if ($address1 == '') {
+        $address1 = 'unknown';
+    }
+    $address2 = $_POST["address2"];
+    if ($address2 == '') {
+        $address2 = 'unknown';
+    }
+    $address3 = $_POST["address3"];
+    if ($address3 == '') {
+        $address3 = 'unknown';
+    }
+    $address4 = $_POST["address4"];
+    if ($address4 == '') {
+        $address4 = 'unknown';
+    }
+    $illNu = $_POST["illNu"];
+    if ($illNu == '') {
+        $illNu = 'unknown';
+    }
 
-    $comment .= "Institution: $borIn; ";
-    $comment .= "Address: $md; ";
-//    $comment .= '; '; 
+    $comment .= "BorCode: $borIn; ";
+    $comment .= "Library: $md; ";
+    $comment .= "A1: $address1; ";
+    $comment .= "A2: $address2; ";
+    $comment .= "A3: $address3; ";
+    $comment .= "A4: $address4; ";
+    $comment .= "ILL#: $illNu; ";
+
+    $WRLCmails = $_POST["WRLCmails"];
+    if ($WRLCmails == '') {
+        $WRLCmails == 'unknown';
+    }
+    $comment .= "WRLCmails: $WRLCmails; ";
+
     $regionalURL = $_POST["regionalURL"];
 
     $emptyResponse = array (

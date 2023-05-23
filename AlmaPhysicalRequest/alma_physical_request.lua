@@ -61,13 +61,42 @@ function LoadRequestPage()
 	mmsId = ("&mmsId=" .. GetFieldValue("Transaction", "CallNumber")) or "&mmsId="
 	illNu = ("&illNu=" .. GetFieldValue("Transaction", "ILLNumber")) or "&illNu="
 	borIn = ("&borIn=" .. GetFieldValue("Transaction", "LendingLibrary")) or "&borIn="
+
+    if(GetFieldValue("Lender", "LibraryName"))
+    then
+	    md = ("&md=" .. string.gsub((GetFieldValue("Lender", "LibraryName")), "%&", " and")) or "&md="
+    else
+		md = "&md="
+	end
 	
-	md = ("&md=" .. string.gsub((GetFieldValue("Lender", "LibraryName")), "%&", " and")) or "&md="
-	address1 = ("&address1=" .. string.gsub((GetFieldValue("Lender", "Address1")), "%&", " and")) or "&address1="
-	address2 = ("&address2=" .. string.gsub((GetFieldValue("Lender", "Address2")), "%&", " and")) or "&address2="
-	address3 = ("&address3=" .. string.gsub((GetFieldValue("Lender", "Address3")), "%&", " and")) or "&address3="
-	address4 = ("&address4=" .. string.gsub((GetFieldValue("Lender", "Address4")), "%&", " and")) or "&address4="
-								
+    if(GetFieldValue("Lender", "Address1"))
+    then
+	    address1 = ("&address1=" .. string.gsub((GetFieldValue("Lender", "Address1")), "%&", " and")) or "&address1="
+    else
+    	address1 = "&address1="
+	end
+
+    if(GetFieldValue("Lender", "Address2"))
+    then
+	    address2 = ("&address2=" .. string.gsub((GetFieldValue("Lender", "Address2")), "%&", " and")) or "&address2="
+    else
+    	address2 = "&address2="
+	end
+
+    if(GetFieldValue("Lender", "Address3"))
+    then
+	    address3 = ("&address3=" .. string.gsub((GetFieldValue("Lender", "Address3")), "%&", " and")) or "&address3="
+    else
+    	address3 = "&address3="
+	end
+
+    if(GetFieldValue("Lender", "Address4"))
+    then
+	    address4 = ("&address4=" .. string.gsub((GetFieldValue("Lender", "Address4")), "%&", " and")) or "&address4="
+    else
+    	address4 = "&address4="
+	end
+
 
 	url = "" .. settings.SubmissionURL .. instCode .. usrId .. illiadCS .. tn .. itemId .. mmsId .. illNu .. borIn .. md .. address1 .. address2 .. address3 .. address4 .. regionalURL;
 	

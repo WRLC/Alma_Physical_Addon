@@ -75,5 +75,5 @@ $apiSettings = array (
 
 // ILLiad Client Secret - should only be shared with authorized ILLiad clients
 // from https://passwordsgenerator.net/ - 16 lowercase & number characters
-define('ILLIAD_CLIENT_SECRET', $_ENV['ILLIAD_PHYSICAL_SECRET']);
+define('ILLIAD_CLIENT_SECRET', $_ENV['ILLIAD_CLIENT_SECRET']);
 ?>

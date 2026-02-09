@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: php-app
-          path: .
+          path: www
 
   deploy:
     runs-on: ubuntu-latest
@@ -67,4 +67,5 @@ jobs:
           app-name: 'alma-physical-addon'
           slot-name: 'Production'
           package: .
+
           

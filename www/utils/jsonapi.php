@@ -33,17 +33,18 @@ function sendCurlRequest( $ch, $postfields=NULL ) {
     }
 
     $response = curl_exec( $ch );
-    list ($hdr, $body) = explode( "\r\n\r\n", $response, 2 );
 
     # set the HTTP response code based on cURL error or API response code
     $errno = curl_errno( $ch );
     if ($errno) {
         $code = 500;
         $message = curl_error( $ch ) . " ($errno)";
-        error_log( "cURL Error:  $message" );
+        error_log( "cURL Error: $message" );
         $body = '{"status":500,"error":"'. $message . '"}';
     } else {
         $code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
+        $headerSize = curl_getinfo( $ch, CURLINFO_HEADER_SIZE );
+        $body = substr( $response, $headerSize );
     }
 
     return array ($code, $body);

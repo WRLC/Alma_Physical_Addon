@@ -2,13 +2,51 @@
     require_once 'utils/config.php';
     require_once 'utils/jsonapi.php';
 
+    if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+        http_response_code(405);
+        header('Allow: POST');
+        exit;
+    }
+
     // check shared secret credential
-    if (isset($_POST["illiadCS"])) {
-        if (ILLIAD_CLIENT_SECRET != $_POST["illiadCS"]) {
-            http_response_code(403);
-            exit;
-        }
-    } else {
+    $illiadCS = $_POST["illiadCS"] ?? null;
+    if ($illiadCS === null) {
+        error_log("ADDON REJECT: missing illiadCS on submit");
+        http_response_code(400);
+        exit;
+    }
+
+    if (ILLIAD_CLIENT_SECRET != $illiadCS) {
+        error_log("ADDON REJECT: invalid illiadCS on submit");
+        http_response_code(403);
+        exit;
+    }
+
+    // Loads variables from form
+    $instCode = $_POST["instCode"] ?? null;
+    if ($instCode === null || !isset($izSettings[$instCode])) {
+        error_log("ADDON REJECT: invalid or missing instCode on submit");
+        http_response_code(400);
+        exit;
+    }
+
+    $apiKey = $izSettings[$instCode]['apikey'];
+    $loclib = $izSettings[$instCode]['loclib'];
+    $locirc = $izSettings[$instCode]['locirc'];
+
+    $usrId = $_POST["usrId"] ?? null;
+    if ($usrId === null || $usrId === '') {
+        error_log("ADDON REJECT: missing usrId on submit");
+        http_response_code(400);
+        exit;
+    }
+
+    $itemId = preg_replace("/[^0-9]/", "", $_POST["itemId"] ?? "");
+    $mmsId = preg_replace("/[^0-9]/", "", $_POST["mmsId"] ?? "");
+    $tn = $_POST["tn"] ?? "";
+
+    if ($itemId === '' || $mmsId === '') {
+        error_log("ADDON REJECT: missing itemId or mmsId on submit");
         http_response_code(400);
         exit;
     }
@@ -27,34 +65,13 @@
     }
     $comment = "ILLiad TN: $tn; ";
 
-    $borIn = $_POST["borIn"];
-    if ($borIn == '') {
-        $borIn = 'unknown';
-    }
-    $md = $_POST["md"];
-    if ($md == '') {
-        $md = 'unknown';
-    }
-    $address1 = $_POST["address1"];
-    if ($address1 == '') {
-        $address1 = 'unknown';
-    }
-    $address2 = $_POST["address2"];
-    if ($address2 == '') {
-        $address2 = 'unknown';
-    }
-    $address3 = $_POST["address3"];
-    if ($address3 == '') {
-        $address3 = 'unknown';
-    }
-    $address4 = $_POST["address4"];
-    if ($address4 == '') {
-        $address4 = 'unknown';
-    }
-    $illNu = $_POST["illNu"];
-    if ($illNu == '') {
-        $illNu = 'unknown';
-    }
+  $borIn = $_POST["borIn"] ?? '';
+$md = $_POST["md"] ?? '';
+$address1 = $_POST["address1"] ?? '';
+$address2 = $_POST["address2"] ?? '';
+$address3 = $_POST["address3"] ?? '';
+$address4 = $_POST["address4"] ?? '';
+$illNu = $_POST["illNu"] ?? '';
 
     $comment .= "BorCode: $borIn; ";
     $comment .= "Library: $md; ";
@@ -64,13 +81,13 @@
     $comment .= "A4: $address4; ";
     $comment .= "ILL#: $illNu; ";
 
-    $WRLCmails = $_POST["WRLCmails"];
-    if ($WRLCmails == '') {
-        $WRLCmails == 'unknown';
-    }
+   $WRLCmails = $_POST["WRLCmails"] ?? '';
+if ($WRLCmails == '') {
+    $WRLCmails = 'unknown';
+}
     $comment .= "WRLCmails: $WRLCmails; ";
 
-    $regionalURL = $_POST["regionalURL"];
+   $regionalURL = $_POST["regionalURL"] ?? $apiSettings["defaultURL"];
 
     $emptyResponse = array (
         "request_id" => '',

@@ -1,27 +1,46 @@
 <?php
-	require_once 'utils/config.php';
+    require_once 'utils/config.php';
 
-    if (isset($_GET["illiadCS"])) {
-        if (ILLIAD_CLIENT_SECRET != $_GET["illiadCS"]) {
-            http_response_code(403);
-            exit;
-        }
-    } else {
+    $illiadCS = $_GET["illiadCS"] ?? null;
+    $instCode = $_GET["instCode"] ?? null;
+    $usrId    = $_GET["usrId"] ?? null;
+
+    // Allow Azure warm-up probes / root hits without generating noisy 400s
+    if ($illiadCS === null && $instCode === null && $usrId === null) {
+        http_response_code(200);
+        header('Content-Type: text/plain; charset=utf-8');
+        echo "Alma Physical Addon endpoint is online.\n";
+        exit;
+    }
+
+    if ($illiadCS === null) {
+        error_log("ADDON REJECT: missing illiadCS on " . ($_SERVER['REQUEST_URI'] ?? ''));
         http_response_code(400);
         exit;
     }
 
-    if (isset($_GET["instCode"])) {
-        $instCode = $_GET["instCode"];
-        $instName = $izSettings[$instCode]['name'];
-    } else {
+    if (ILLIAD_CLIENT_SECRET != $illiadCS) {
+        error_log("ADDON REJECT: invalid illiadCS on " . ($_SERVER['REQUEST_URI'] ?? ''));
+        http_response_code(403);
+        exit;
+    }
+
+    if ($instCode === null) {
+        error_log("ADDON REJECT: missing instCode on " . ($_SERVER['REQUEST_URI'] ?? ''));
         http_response_code(400);
         exit;
     }
 
-    if (isset($_GET["usrId"])) {
-        $usrId = $_GET["usrId"];
-    } else {
+    if (!isset($izSettings[$instCode])) {
+        error_log("ADDON REJECT: invalid instCode '$instCode'");
+        http_response_code(400);
+        exit;
+    }
+
+    $instName = $izSettings[$instCode]['name'];
+
+    if ($usrId === null) {
+        error_log("ADDON REJECT: missing usrId on " . ($_SERVER['REQUEST_URI'] ?? ''));
         http_response_code(400);
         exit;
     }
